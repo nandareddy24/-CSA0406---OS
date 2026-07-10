@@ -1,0 +1,18 @@
+#include<stdio.h>
+int main()
+{
+    int arr[100],n;
+    
+    printf("Enter the number of processers :");
+    scanf("%d",&n);
+    
+    for (int i=1;i<=n;i++){
+        printf("Enter the process ID %d:",i);
+        scanf("%d",&arr[i]);
+    }
+    printf("\nSchedular Execution\n");
+    for (int i=1;i<=n;i++){
+        printf("Excuting process :%d\n",arr[i]);
+    }
+    printf("All processes Executed .");
+}

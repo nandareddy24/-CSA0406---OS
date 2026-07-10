@@ -1,0 +1,21 @@
+#include <stdio.h>
+
+int main() {
+    int frame[3], page[10], n, i;
+
+    printf("Enter number of pages: ");
+    scanf("%d",&n);
+
+    for(i=0;i<n;i++)
+        scanf("%d",&page[i]);
+
+    for(i=0;i<3;i++)
+        frame[i]=page[i];
+
+    printf("Frames: ");
+
+    for(i=0;i<3;i++)
+        printf("%d ",frame[i]);
+
+    return 0;
+}

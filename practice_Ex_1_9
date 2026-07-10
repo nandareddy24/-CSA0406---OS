@@ -1,0 +1,19 @@
+#include <stdio.h>
+
+int main() {
+    int buffer[5],i;
+
+    printf("Producer:\n");
+
+    for(i=0;i<5;i++) {
+        buffer[i]=i+1;
+        printf("Produced %d\n",buffer[i]);
+    }
+
+    printf("\nConsumer:\n");
+
+    for(i=0;i<5;i++)
+        printf("Consumed %d\n",buffer[i]);
+
+    return 0;
+}

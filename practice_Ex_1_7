@@ -1,0 +1,17 @@
+#include <stdio.h>
+
+int main() {
+    int block[5],i;
+
+    for(i=0;i<5;i++) {
+        printf("Enter Block Size: ");
+        scanf("%d",&block[i]);
+    }
+
+    printf("\nAllocated Memory Blocks\n");
+
+    for(i=0;i<5;i++)
+        printf("%d ",block[i]);
+
+    return 0;
+}

@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <sys/ipc.h>
+#include <sys/msg.h>
+#include <string.h>
+
+struct message
+{
+    long msg_type;
+    char msg_text[100];
+};
+
+int main()
+{
+    key_t key;
+    int msgid;
+    struct message msg;
+
+    // Generate a unique key
+    key = ftok("msgfile", 65);
+
+    // Create a message queue
+    msgid = msgget(key, 0666 | IPC_CREAT);
+
+    if (msgid == -1)
+    {
+        perror("msgget");
+        exit(1);
+    }
+
+    // Set message type
+    msg.msg_type = 1;
+
+    // Read message from user
+    printf("Enter message: ");
+    fgets(msg.msg_text, sizeof(msg.msg_text), stdin);
+
+    // Send message to the queue
+    if (msgsnd(msgid, &msg, sizeof(msg.msg_text), 0) == -1)
+    {
+        perror("msgsnd");
+        exit(1);
+    }
+
+    printf("\nMessage sent successfully.\n");
+
+    // Receive message from the queue
+    if (msgrcv(msgid, &msg, sizeof(msg.msg_text), 1, 0) == -1)
+    {
+        perror("msgrcv");
+        exit(1);
+    }
+
+    printf("Message received: %s", msg.msg_text);
+
+    // Remove the message queue
+    msgctl(msgid, IPC_RMID, NULL);
+
+    printf("\nMessage queue communication completed.\n");
+
+    return 0;
+}

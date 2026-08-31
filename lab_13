@@ -1,0 +1,131 @@
+#include <stdio.h>
+
+void firstFit(int block[], int n, int process[], int m)
+{
+    int alloc[m];
+
+    for (int i = 0; i < m; i++)
+        alloc[i] = -1;
+
+    for (int i = 0; i < m; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            if (block[j] >= process[i])
+            {
+                alloc[i] = j;
+                block[j] -= process[i];
+                break;
+            }
+        }
+    }
+
+    printf("\nFirst Fit:\n");
+    for (int i = 0; i < m; i++)
+        printf("Process %d -> Block %d\n", i + 1,
+               alloc[i] == -1 ? -1 : alloc[i] + 1);
+}
+
+void bestFit(int block[], int n, int process[], int m)
+{
+    int alloc[m];
+
+    for (int i = 0; i < m; i++)
+        alloc[i] = -1;
+
+    for (int i = 0; i < m; i++)
+    {
+        int best = -1;
+
+        for (int j = 0; j < n; j++)
+        {
+            if (block[j] >= process[i])
+            {
+                if (best == -1 || block[j] < block[best])
+                    best = j;
+            }
+        }
+
+        if (best != -1)
+        {
+            alloc[i] = best;
+            block[best] -= process[i];
+        }
+    }
+
+    printf("\nBest Fit:\n");
+    for (int i = 0; i < m; i++)
+        printf("Process %d -> Block %d\n", i + 1,
+               alloc[i] == -1 ? -1 : alloc[i] + 1);
+}
+
+void worstFit(int block[], int n, int process[], int m)
+{
+    int alloc[m];
+
+    for (int i = 0; i < m; i++)
+        alloc[i] = -1;
+
+    for (int i = 0; i < m; i++)
+    {
+        int worst = -1;
+
+        for (int j = 0; j < n; j++)
+        {
+            if (block[j] >= process[i])
+            {
+                if (worst == -1 || block[j] > block[worst])
+                    worst = j;
+            }
+        }
+
+        if (worst != -1)
+        {
+            alloc[i] = worst;
+            block[worst] -= process[i];
+        }
+    }
+
+    printf("\nWorst Fit:\n");
+    for (int i = 0; i < m; i++)
+        printf("Process %d -> Block %d\n", i + 1,
+               alloc[i] == -1 ? -1 : alloc[i] + 1);
+}
+
+int main()
+{
+    int n, m;
+
+    printf("Enter number of memory blocks: ");
+    scanf("%d", &n);
+
+    int block[n];
+
+    printf("Enter block sizes:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &block[i]);
+
+    printf("Enter number of processes: ");
+    scanf("%d", &m);
+
+    int process[m];
+
+    printf("Enter process sizes:\n");
+    for (int i = 0; i < m; i++)
+        scanf("%d", &process[i]);
+
+    int b1[n], b2[n], b3[n];
+
+    for (int i = 0; i < n; i++)
+    {
+        b1[i] = block[i];
+        b2[i] = block[i];
+        b3[i] = block[i];
+    }
+
+    firstFit(b1, n, process, m);
+    bestFit(b2, n, process, m);
+    worstFit(b3, n, process, m);
+
+    return 0;
+}

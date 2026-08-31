@@ -1,0 +1,67 @@
+#include <stdio.h>
+
+struct Employee
+{
+    int id;
+    char name[30];
+    float salary;
+};
+
+int main()
+{
+    FILE *fp;
+    struct Employee e;
+    int n, pos;
+
+    fp = fopen("employee.dat", "wb+");
+
+    if (fp == NULL)
+    {
+        printf("File cannot be opened.\n");
+        return 1;
+    }
+
+    printf("Enter number of employees: ");
+    scanf("%d", &n);
+
+    /* Store employee details */
+    for (int i = 0; i < n; i++)
+    {
+        printf("\nEnter Employee %d details:\n", i + 1);
+
+        printf("ID: ");
+        scanf("%d", &e.id);
+
+        printf("Name: ");
+        scanf("%s", e.name);
+
+        printf("Salary: ");
+        scanf("%f", &e.salary);
+
+        fwrite(&e, sizeof(e), 1, fp);
+    }
+
+    /* Random access */
+    printf("\nEnter employee position to retrieve (1-%d): ", n);
+    scanf("%d", &pos);
+
+    if (pos < 1 || pos > n)
+    {
+        printf("Invalid position.\n");
+    }
+    else
+    {
+        fseek(fp, (pos - 1) * sizeof(e), SEEK_SET);
+
+        fread(&e, sizeof(e), 1, fp);
+
+        printf("\nEmployee Details:\n");
+        printf("ID     : %d\n", e.id);
+        printf("Name   : %s\n", e.name);
+        printf("Salary : %.2f\n", e.salary);
+    }
+
+    fclose(fp);
+
+    return 0;
+}
